@@ -1,0 +1,32 @@
+{
+  "name": "vercel-local-mcp-agent-demo",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "next dev --webpack",
+    "build": "next build --webpack",
+    "start": "next start",
+    "local:mcp": "node local/private-data-mcp.mjs",
+    "local:tunnel": "cloudflared tunnel --protocol http2 --url http://127.0.0.1:8791 --no-autoupdate",
+    "local:wecom": "node local/wecom-bridge.mjs",
+    "check:mcp": "node scripts/check-mcp.mjs"
+  },
+  "dependencies": {
+    "@ai-sdk/mcp": "2.0.44",
+    "@ai-sdk/openai-compatible": "^3.0.43",
+    "@modelcontextprotocol/sdk": "1.30.0",
+    "@wecom/aibot-node-sdk": "1.0.7",
+    "ai": "7.0.92",
+    "next": "16.3.4",
+    "react": "latest",
+    "react-dom": "latest",
+    "zod": "latest"
+  },
+  "devDependencies": {
+    "@types/node": "latest",
+    "@types/react": "latest",
+    "@types/react-dom": "latest",
+    "typescript": "latest"
+  }
+}
