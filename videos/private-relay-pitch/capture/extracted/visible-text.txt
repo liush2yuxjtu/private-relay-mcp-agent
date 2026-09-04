@@ -1,0 +1,1 @@
+Private Relay gives cloud agents a narrow, audited path into local files and systems without uploading the underlying data. Three read-only MCP tools expose list, search, and read. Every answer cites its source file. Browser and WeCom connect to the same Vercel ToolLoopAgent.

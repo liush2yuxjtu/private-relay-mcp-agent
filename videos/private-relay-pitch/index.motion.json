@@ -1,0 +1,14 @@
+{
+  "duration": 30,
+  "assertions": [
+    { "kind": "appearsBy", "selector": ".scene1 .choice", "bySec": 1.5 },
+    { "kind": "appearsBy", "selector": ".brand-panel", "bySec": 6 },
+    { "kind": "appearsBy", "selector": ".tui", "bySec": 12 },
+    { "kind": "appearsBy", "selector": ".evidence-card", "bySec": 17 },
+    { "kind": "appearsBy", "selector": ".counters", "bySec": 23 },
+    { "kind": "appearsBy", "selector": ".lockup", "bySec": 29 },
+    { "kind": "staysInFrame", "selector": ".brand-panel" },
+    { "kind": "staysInFrame", "selector": ".evidence-card" },
+    { "kind": "keepsMoving", "withinSelector": "#root", "maxStaticSec": 2 }
+  ]
+}
