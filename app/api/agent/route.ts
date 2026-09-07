@@ -31,10 +31,10 @@ export async function POST(request: Request) {
     const glmKey = process.env.GLM_CODING_PLAN_API_KEY;
     const xfyunKey = process.env.XFYUN_CODING_PLAN_API_KEY;
     const configuredModel = glmKey
-      ? (process.env.GLM_MODEL || 'glm-4.7')
+      ? (process.env.GLM_MODEL || 'glm-5.3-flash')
       : xfyunKey
         ? (process.env.XFYUN_MODEL || 'astron-code-latest')
-        : (process.env.AI_MODEL || 'glm-4.7');
+        : (process.env.AI_MODEL || 'glm-5.3-flash');
     const kimiKey = process.env.KIMI_CODE_API_KEY || process.env.KIMI_API_KEY;
     const kimiBaseUrl = process.env.KIMI_CODE_API_KEY ? 'https://api.kimi.com/coding/v1' : 'https://api.moonshot.cn/v1';
     const model = glmKey

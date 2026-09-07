@@ -71,4 +71,4 @@ npm run local:wecom
 vercel deploy -y --no-wait
 ```
 
-部署端需要 `PRIVATE_MCP_URL`、`PRIVATE_MCP_TOKEN`、`DEMO_ACCESS_KEY`。当前 demo 优先直连 GLM Coding Plan：`GLM_CODING_PLAN_API_KEY`、`GLM_MODEL=glm-4.7`、OpenAI-compatible endpoint；其次支持讯飞、Kimi 和 Vercel AI Gateway。
+部署端需要 `PRIVATE_MCP_URL`、`PRIVATE_MCP_TOKEN`、`DEMO_ACCESS_KEY`。当前 demo 优先直连 GLM Coding Plan：`GLM_CODING_PLAN_API_KEY`、`GLM_MODEL=glm-5.3-flash`、OpenAI-compatible endpoint；其次支持讯飞、Kimi 和 Vercel AI Gateway。
