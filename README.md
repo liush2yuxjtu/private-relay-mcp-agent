@@ -71,4 +71,4 @@ npm run local:wecom
 vercel deploy -y --no-wait
 ```
 
-部署端需要 `PRIVATE_MCP_URL`、`PRIVATE_MCP_TOKEN`、`DEMO_ACCESS_KEY`。当前 demo 优先直连讯飞 Astron Coding Plan：`XFYUN_CODING_PLAN_API_KEY`、`XFYUN_MODEL=astron-code-latest`、OpenAI-compatible `/v2` endpoint；其次支持 GLM、Kimi 和 Vercel AI Gateway。讯飞控制台负责切换底层模型，请求模型 ID 始终使用 `astron-code-latest`。
+部署端需要 `PRIVATE_MCP_URL`、`PRIVATE_MCP_TOKEN`、`DEMO_ACCESS_KEY`。当前 demo 优先直连 GLM Coding Plan：`GLM_CODING_PLAN_API_KEY`、`GLM_MODEL=glm-4.7`、OpenAI-compatible endpoint；其次支持讯飞、Kimi 和 Vercel AI Gateway。

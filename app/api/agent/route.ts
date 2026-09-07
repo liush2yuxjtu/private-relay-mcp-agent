@@ -28,14 +28,19 @@ export async function POST(request: Request) {
   const client = await openPrivateMcp();
   try {
     const tools = await client.tools();
+    const glmKey = process.env.GLM_CODING_PLAN_API_KEY;
     const xfyunKey = process.env.XFYUN_CODING_PLAN_API_KEY;
-    const configuredModel = xfyunKey ? (process.env.XFYUN_MODEL || 'astron-code-latest') : (process.env.AI_MODEL || 'glm-4.7');
+    const configuredModel = glmKey
+      ? (process.env.GLM_MODEL || 'glm-4.7')
+      : xfyunKey
+        ? (process.env.XFYUN_MODEL || 'astron-code-latest')
+        : (process.env.AI_MODEL || 'glm-4.7');
     const kimiKey = process.env.KIMI_CODE_API_KEY || process.env.KIMI_API_KEY;
     const kimiBaseUrl = process.env.KIMI_CODE_API_KEY ? 'https://api.kimi.com/coding/v1' : 'https://api.moonshot.cn/v1';
-    const model = xfyunKey
-      ? createOpenAICompatible({ name: 'xfyun', apiKey: xfyunKey, baseURL: 'https://maas-coding-api.cn-huabei-1.xf-yun.com/v2' })(configuredModel)
-      : process.env.GLM_CODING_PLAN_API_KEY
-        ? createOpenAICompatible({ name: 'glm', apiKey: process.env.GLM_CODING_PLAN_API_KEY, baseURL: 'https://open.bigmodel.cn/api/coding/paas/v4' })(configuredModel)
+    const model = glmKey
+      ? createOpenAICompatible({ name: 'glm', apiKey: glmKey, baseURL: 'https://open.bigmodel.cn/api/coding/paas/v4' })(configuredModel)
+      : xfyunKey
+        ? createOpenAICompatible({ name: 'xfyun', apiKey: xfyunKey, baseURL: 'https://maas-coding-api.cn-huabei-1.xf-yun.com/v2' })(configuredModel)
         : kimiKey
           ? createOpenAICompatible({ name: 'kimi', apiKey: kimiKey, baseURL: kimiBaseUrl })(configuredModel)
           : configuredModel;
