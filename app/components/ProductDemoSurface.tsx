@@ -58,7 +58,7 @@ export function ProductDemoSurface() {
       const health = await fetch('/api/status', { headers: { 'x-demo-key': key } });
       if (!health.ok) throw new Error(health.status === 401 ? 'Invalid demo key' : `MCP status ${health.status}`);
       setStatus('running');
-      setEvents(current => [...current.slice(-4), 'tools   list · search · read', 'model   astron-code-latest']);
+      setEvents(current => [...current.slice(-4), 'tools   list · search · read', 'model   glm-5.3-flash']);
       const response = await fetch('/api/agent', { method: 'POST', headers: { 'content-type': 'application/json', 'x-demo-key': key }, body: JSON.stringify({ message: prompt }) });
       const data: unknown = await response.json();
       if (!response.ok || !data || typeof data !== 'object' || !('text' in data) || typeof data.text !== 'string') {
@@ -123,7 +123,7 @@ export function ProductDemoSurface() {
         </DemoWindow>
         <DemoWindow id="agent" pane={panes.agent} title="agent / control" onDrag={beginDrag} onResize={beginResize}>
           <form className="agent-console" onSubmit={run}>
-            <div className="model-row"><span><i /> ASTRON</span><b>astron-code-latest</b></div>
+            <div className="model-row"><span><i /> GLM</span><b>glm-5.3-flash</b></div>
             <label htmlFor="demo-key">Demo key</label><input id="demo-key" type="password" value={key} onChange={event => setKey(event.target.value)} placeholder="Paste access key" autoComplete="off" />
             <label htmlFor="demo-prompt">Instruction</label><textarea id="demo-prompt" value={prompt} onChange={event => setPrompt(event.target.value)} rows={5} />
             <button className="run-button" disabled={!key || status === 'running' || status === 'connecting'}>{status === 'running' || status === 'connecting' ? 'Running…' : 'Run private query'}<span>⌘↵</span></button>
