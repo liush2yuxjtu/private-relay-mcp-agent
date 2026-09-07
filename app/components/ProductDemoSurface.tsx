@@ -26,7 +26,7 @@ const defaults: Record<PaneId, Pane> = {
   evidence: { left: 642, top: 452, width: 440, height: 230, z: 5 },
 };
 
-export function ProductDemoSurface() {
+export function ProductDemoSurface({ vercelAuthPreview = false }: { vercelAuthPreview?: boolean }) {
   const [demoId, setDemoId] = useState<DemoId>('q3');
   const [key, setKey] = useState('');
   const [prompt, setPrompt] = useState(demos.q3.prompt);
@@ -50,16 +50,17 @@ export function ProductDemoSurface() {
 
   async function run(event?: FormEvent) {
     event?.preventDefault();
-    if (!key.trim() || !prompt.trim() || status === 'running') return;
+    if ((!vercelAuthPreview && !key.trim()) || !prompt.trim() || status === 'running') return;
+    const authHeaders: Record<string, string> = vercelAuthPreview ? {} : { 'x-demo-key': key };
     setStatus('connecting');
     setAnswer('Opening authenticated MCP session…');
-    setEvents(current => [...current.slice(-4), 'auth    demo key accepted', 'mcp     discovering tools']);
+    setEvents(current => [...current.slice(-4), vercelAuthPreview ? 'auth    Vercel session accepted' : 'auth    demo key accepted', 'mcp     discovering tools']);
     try {
-      const health = await fetch('/api/status', { headers: { 'x-demo-key': key } });
+      const health = await fetch('/api/status', { headers: authHeaders });
       if (!health.ok) throw new Error(health.status === 401 ? 'Invalid demo key' : `MCP status ${health.status}`);
       setStatus('running');
       setEvents(current => [...current.slice(-4), 'tools   list · search · read', 'model   glm-5.3-flash']);
-      const response = await fetch('/api/agent', { method: 'POST', headers: { 'content-type': 'application/json', 'x-demo-key': key }, body: JSON.stringify({ message: prompt }) });
+      const response = await fetch('/api/agent', { method: 'POST', headers: { 'content-type': 'application/json', ...authHeaders }, body: JSON.stringify({ message: prompt }) });
       const data: unknown = await response.json();
       if (!response.ok || !data || typeof data !== 'object' || !('text' in data) || typeof data.text !== 'string') {
         const detail = data && typeof data === 'object' && 'error' in data && typeof data.error === 'string' ? data.error : `Agent status ${response.status}`;
@@ -124,9 +125,9 @@ export function ProductDemoSurface() {
         <DemoWindow id="agent" pane={panes.agent} title="agent / control" onDrag={beginDrag} onResize={beginResize}>
           <form className="agent-console" onSubmit={run}>
             <div className="model-row"><span><i /> GLM</span><b>glm-5.3-flash</b></div>
-            <label htmlFor="demo-key">Demo key</label><input id="demo-key" type="password" value={key} onChange={event => setKey(event.target.value)} placeholder="Paste access key" autoComplete="off" />
+            {vercelAuthPreview ? <p className="auth-note">Vercel Authentication · protected preview</p> : <><label htmlFor="demo-key">Demo key</label><input id="demo-key" type="password" value={key} onChange={event => setKey(event.target.value)} placeholder="Paste access key" autoComplete="off" /></>}
             <label htmlFor="demo-prompt">Instruction</label><textarea id="demo-prompt" value={prompt} onChange={event => setPrompt(event.target.value)} rows={5} />
-            <button className="run-button" disabled={!key || status === 'running' || status === 'connecting'}>{status === 'running' || status === 'connecting' ? 'Running…' : 'Run private query'}<span>⌘↵</span></button>
+            <button className="run-button" disabled={(!vercelAuthPreview && !key) || status === 'running' || status === 'connecting'}>{status === 'running' || status === 'connecting' ? 'Running…' : 'Run private query'}<span>⌘↵</span></button>
           </form>
         </DemoWindow>
         <DemoWindow id="terminal" pane={panes.terminal} title="relay / events" onDrag={beginDrag} onResize={beginResize}>

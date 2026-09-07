@@ -2,6 +2,7 @@ import { ProductDemoSurface } from './components/ProductDemoSurface';
 
 export default function Home() {
   const sessionId = process.env.PI_SESSION_ID || 'unavailable via shell';
+  const vercelAuthPreview = process.env.VERCEL_ENV === 'preview';
   return (
     <main>
       <nav className="site-nav"><a href="#top" className="wordmark">PRIVATE RELAY<span>°</span></a><div><a href="#demo">Live demo</a><a href="#film">Pitch film</a><a href="#thesis">Thesis</a><a href="#security">Security</a></div><a className="nav-cta" href="#demo">Run it</a></nav>
@@ -16,8 +17,8 @@ export default function Home() {
       </section>
 
       <section className="demo-section" id="demo">
-        <div className="section-head"><div><span>02 / PRODUCT</span><h2>Watch the boundary work.</h2></div><p>Choose a task. Add your demo key. The cloud agent discovers tools, calls the local MCP server, and returns cited evidence.</p></div>
-        <ProductDemoSurface />
+        <div className="section-head"><div><span>02 / PRODUCT</span><h2>Watch the boundary work.</h2></div><p>{vercelAuthPreview ? 'Sign in with your Vercel account. The protected preview discovers tools, calls the local MCP server, and returns cited evidence.' : 'Choose a task. Add your demo key. The cloud agent discovers tools, calls the local MCP server, and returns cited evidence.'}</p></div>
+        <ProductDemoSurface vercelAuthPreview={vercelAuthPreview} />
       </section>
 
       <section className="film" id="film">

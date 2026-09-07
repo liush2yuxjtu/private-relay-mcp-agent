@@ -1,6 +1,10 @@
 import { createHash, timingSafeEqual } from 'node:crypto';
 
 export function hasAccess(request: Request): boolean {
+  // Free Vercel Authentication protects preview/deployment URLs. Production
+  // keeps the app-level key because Hobby production domains stay public.
+  if (process.env.VERCEL_ENV === 'preview') return true;
+
   const expected = process.env.DEMO_ACCESS_KEY;
   const supplied = request.headers.get('x-demo-key');
   if (!expected || !supplied) return false;
